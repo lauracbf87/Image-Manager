@@ -7,7 +7,6 @@ package com.nagarro.images.web.services;
 
 import com.nagarro.images.web.dao.ImageDAO;
 import com.nagarro.images.web.model.Image;
-import java.util.Collection;
 import java.util.List;
 
 /**

@@ -24,7 +24,7 @@ public class UploadHelper {
         Image image = new Image();
 
         DiskFileItemFactory factory = new DiskFileItemFactory();
-        String filePath = "c:\\temp\\";
+        String filePath = "/Users/Laura.Barragan/documents/temp";
         File file;
 
         factory.setSizeThreshold(40000000);
@@ -41,10 +41,10 @@ public class UploadHelper {
                     String fileName = fileItem.getName();
                     String contentType = fileItem.getContentType();
                     long sizeInBytes = fileItem.getSize();
-                    if (fileName.lastIndexOf("\\") >= 0) {
-                        file = new File(filePath + fileName.substring(fileName.lastIndexOf("\\")));
+                    if (fileName.lastIndexOf("/") >= 0) {
+                        file = new File(filePath + fileName.substring(fileName.lastIndexOf("/")));
                     } else {
-                        file = new File(filePath + fileName.substring(fileName.lastIndexOf("\\") + 1));
+                        file = new File(filePath + fileName.substring(fileName.lastIndexOf("/") + 1));
                     }
                     fileItem.write(file);
                     image.setImageName(fileName);

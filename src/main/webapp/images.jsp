@@ -11,16 +11,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script type="text/javascript">
-            
-                var setCommand = (event, iCommand) => {
-                    
-                    var cmd = document.getElementById("command");
-                    cmd.value = iCommand;
-                    
-                }
-            
-        </script>
+        <link href="CSS/styleImage.css" rel="stylesheet" type="text/css"/>
+        <script src="https://kit.fontawesome.com/1e6b10ec84.js" crossorigin="anonymous"></script>
+        <script src="javascript/images.js" type="text/javascript"></script>
     </head>
     <body>
         <jsp:useBean id="imagesList" scope="session" class="java.util.ArrayList" />
@@ -28,7 +21,7 @@
             <h1>Image Management Utility</h1>
         </div>
         <div>
-            <form name="form" action="images" method="POST" enctype="multipart/form-data">
+            <form name="form" id='form' action="img" method="POST" enctype="multipart/form-data">
                 <table>
                     <thead>
                         <tr>
@@ -36,9 +29,13 @@
                                 <p>Please select an image file to upload (Max Size 1MB)</p>
                             </td>
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td>
                                 <input type="hidden" name="command" id="command" value="1">
+                                <input type="hidden" name="selectedImage" id="selectedImage" value="-1">
+                                
                                 <input type="file" name="fileName">
                             </td>
                             <td>
@@ -51,25 +48,34 @@
                                 <input type="submit" onclick="setCommand(this, 3)" value="Search">
                             </td>
                         </tr>
-                    </thead>
-                    <tbody>
+                    </tbody>  
+                </table>
+                
+                <h4>
+                    Uploaded Images
+                </h4>
+                <table>
+                    <thead>
                         <tr>
                             <td>S.No</td>
                             <td>Name</td>
                             <td>Size</td>
                             <td>Preview</td>
                             <td>Actions</td>
-                        </tr>
+                        </tr> 
+                    </thead>
+                    <tbody>
                         <% for (Image img : (java.util.ArrayList<Image>) imagesList) {%>
                         <tr>
                             <td><%=img.getImageId()%></td>
                             <td><%=img.getImageName()%></td>
                             <td><%=img.getImageSize()%></td>
-                            <td><img src="<%=img.getImagePath()%>"/>
+                            <td><img src="/images-web/displayImg?imageId=<%=img.getImageId()%>" style="max-width: 40px; width: auto;"/>
                             </td>
-                            <td><img src="edit.jpg"/>
-                                <img src="delete.jpg"/>
-                                <%=img.getImageId()%></td>
+                            <td>
+                                <i class="fas fa-edit"></i>
+                                <a onclick="setCommand2(4,<%=img.getImageId()%>)"><i class="fas fa-trash-alt"></i></a>
+                            </td>
                         </tr>
                         <%}%>
                     </tbody>

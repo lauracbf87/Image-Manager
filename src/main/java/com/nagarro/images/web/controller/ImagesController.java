@@ -10,7 +10,6 @@ import com.nagarro.images.web.services.UploadHelper;
 import com.nagarro.images.web.services.SearchImageService;
 import com.nagarro.images.web.model.Image;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -26,7 +25,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  */
 public class ImagesController extends HttpServlet {
 
-    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -38,6 +36,9 @@ public class ImagesController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        List<Image> imagesList = SearchImageService.getAll();
+        request.getSession().setAttribute("imagesList", imagesList);
+
         response.sendRedirect("images.jsp");
     }
 
@@ -57,26 +58,35 @@ public class ImagesController extends HttpServlet {
         boolean isMultiPart = ServletFileUpload.isMultipartContent(request);
         String parameter = request.getParameter("command");
         parameter = "2";
-        int command = (isMultiPart) ? 1 : Integer.valueOf(parameter); 
-        
-        switch(command){
-            case 1: {
-                
-                if(isMultiPart){
+        int command = (isMultiPart) ? 1 : Integer.valueOf(parameter);
+
+        switch (command) {
+            case 1: {// case is upload image
+
+                if (isMultiPart) {
                     Image uploadedImage = UploadHelper.uploadFileFrom(request);
                     ImageDAO.getInstance().save(uploadedImage);
                     imagesList.addAll(SearchImageService.getAll());
                 }
-            } break;
-            case 2: {
+            }
+            break;
+            case 2: {// case is cancel 
                 response.sendRedirect("index.jsp");
-            } break;
-            case 3: {
-                    String searchText = request.getParameter("searchText");
-                    imagesList.addAll(SearchImageService.searchBy(searchText));
-            } break;
+            }
+            break;
+            case 3: {// case is search 
+                String searchText = request.getParameter("searchText");
+                imagesList.addAll(SearchImageService.searchBy(searchText));
+            }
+            case 4: {// case is delete img
+                String sImageId = request.getParameter("selectedImage");
+                ImageDAO dao = ImageDAO.getInstance();
+                dao.delete(Long.valueOf(sImageId));
+                doGet(request, response);
+            }
+            break;
         }
-        
+
         session.setAttribute("imagesList", imagesList);
         response.sendRedirect("images.jsp");
     }
@@ -90,5 +100,5 @@ public class ImagesController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-    
+
 }

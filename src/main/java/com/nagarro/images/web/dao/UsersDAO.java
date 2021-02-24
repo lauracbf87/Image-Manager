@@ -1,10 +1,9 @@
 package com.nagarro.images.web.dao;
 
+import com.nagarro.images.web.model.User;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import com.nagarro.images.web.model.User;
 
 public class UsersDAO {
 
@@ -17,8 +16,7 @@ public class UsersDAO {
         User user = null;
 
         try {
-            String url = "jdbc:mysql://localhost:3306/image-web";
-            Connection conn = DriverManager.getConnection(url, "root", "Cristin@8");
+            Connection conn = ConnectionHelper.getConnection();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE user_name =  ? AND password = ? ");
 
             stmt.setString(1, userName);
