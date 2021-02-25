@@ -21,7 +21,7 @@
             <h1>Image Management Utility</h1>
         </div>
         <div>
-            <form name="form" id='form' action="img" method="POST" enctype="multipart/form-data">
+            <form name="form" id='form' action="images" method="POST" enctype="multipart/form-data">
                 <table>
                     <thead>
                         <tr>
@@ -36,16 +36,13 @@
                                 <input type="hidden" name="command" id="command" value="1">
                                 <input type="hidden" name="selectedImage" id="selectedImage" value="-1">
                                 
-                                <input type="file" name="fileName">
+                                <input type="file" name="file">
                             </td>
                             <td>
-                                <input type="submit" onclick="setCommand(this, 1)" value="Submit">
+                                <input type="submit" onclick="setCommand(1)" name="upload" value="Upload">
                             </td>
                             <td>
-                                <input type="submit" onclick="setCommand(this, 2)" value="Cancel">
-                            </td>
-                            <td>
-                                <input type="submit" onclick="setCommand(this, 3)" value="Search">
+                                <input type="submit" onclick="setCommand(2)" name="cancel" value="Cancel">
                             </td>
                         </tr>
                     </tbody>  
@@ -73,7 +70,6 @@
                             <td><img src="/images-web/displayImg?imageId=<%=img.getImageId()%>" style="max-width: 40px; width: auto;"/>
                             </td>
                             <td>
-                                <i class="fas fa-edit"></i>
                                 <a onclick="setCommand2(4,<%=img.getImageId()%>)"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         </tr>

@@ -5,14 +5,15 @@
  */
 
 var setCommand = (iCommand) => {
-
+    //ßevt.preventDefault();
     var cmd = document.getElementById("command");
     cmd.value = iCommand;
 
 };
 
 var setCommand2 = (iCommand, selectedImage) => {
-    setCommand(iCommand);
+    var cmd = document.getElementById("command");
+    cmd.value = iCommand;
     var sImg = document.getElementById("selectedImage");
     sImg.value = selectedImage;
     document.getElementById('form').submit();
